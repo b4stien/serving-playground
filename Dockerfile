@@ -12,11 +12,8 @@ ADD . /opt/serving-playground
 
 RUN mkdir /var/run/fake_api/
 
-RUN wget https://github.com/open-telemetry/opentelemetry-collector-releases/releases/download/v0.67.0/otelcol-contrib_0.67.0_linux_amd64.deb && dpkg -i otelcol-contrib_0.67.0_linux_amd64.deb
-
-LABEL "com.datadoghq.ad.check.id"='haproxy'
 LABEL "com.datadoghq.ad.check_names"='["haproxy"]'
-LABEL "com.datadoghq.ad.init_configs"='["{}"]'
-LABEL "com.datadoghq.ad.instances"='[{"url": "http://%%host%%:27002/admin?stats"}]'
+LABEL "com.datadoghq.ad.init_configs"='[{}]'
+LABEL "com.datadoghq.ad.instances"='[{"use_openmetrics": true, "openmetrics_endpoint": "http://%%host%%:27002/metrics"}]'
 
 CMD [ "supervisord", "-c", "/opt/serving-playground/supervisord.conf" ]
